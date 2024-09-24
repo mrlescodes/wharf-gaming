@@ -1,0 +1,20 @@
+{
+  "name": "@wharf-gaming/splinterlands-api-client",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "devDependencies": {
+    "@wharf-gaming/typescript-config": "workspace:*",
+    "@wharf-gaming/http-client": "workspace:*",
+    "@wharf-gaming/splinterlands-models": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

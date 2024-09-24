@@ -3,6 +3,7 @@
 ## General
 
 - Formatting package.json
+- Add package dev scripts
 
 
 ## Http Client
