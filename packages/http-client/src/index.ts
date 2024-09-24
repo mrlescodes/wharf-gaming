@@ -3,17 +3,17 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   AxiosInstance,
-} from "axios";
+} from 'axios';
 
 // Alias for brevity
 export type HttpResponse<T> = Promise<T | HttpError>;
 
 export type HttpError =
-  | { type: "NETWORK_ERROR"; error: Error }
-  | { type: "VALIDATION_ERROR"; error: Error }
-  | { type: "HTTP_ERROR"; status: number; body: any };
+  | { type: 'NETWORK_ERROR'; error: Error }
+  | { type: 'VALIDATION_ERROR'; error: Error }
+  | { type: 'HTTP_ERROR'; status: number; body: any };
 
-type HttpMethod = "GET" | "POST";
+type HttpMethod = 'GET' | 'POST';
 
 export interface HttpRequestConfig {
   method: HttpMethod;
@@ -28,13 +28,13 @@ const isSuccessfulStatus = (status: number): boolean =>
 const handleAxiosError = (error: unknown): HttpError => {
   if (isAxiosError(error)) {
     return {
-      type: "HTTP_ERROR",
+      type: 'HTTP_ERROR',
       status: error.response?.status ?? 0,
       body: error.response?.data ?? {},
     };
   }
 
-  return { type: "NETWORK_ERROR", error: error as Error };
+  return { type: 'NETWORK_ERROR', error: error as Error };
 };
 
 const toAxiosConfig = (config: HttpRequestConfig): AxiosRequestConfig => ({
@@ -50,7 +50,7 @@ const processResponse = (response: AxiosResponse): any | HttpError => {
   }
 
   return {
-    type: "HTTP_ERROR",
+    type: 'HTTP_ERROR',
     status: response.status,
     body: response.data,
   };
@@ -61,7 +61,7 @@ export type HttpClient = {
 };
 
 export const createAxiosHttpClient = (
-  axiosInstance: AxiosInstance
+  axiosInstance: AxiosInstance,
 ): HttpClient => {
   return {
     request: async <T>(config: HttpRequestConfig): HttpResponse<T> => {
