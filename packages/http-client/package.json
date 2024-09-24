@@ -1,0 +1,22 @@
+{
+  "name": "@wharf-gaming/http-client",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "tsc",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "axios": "^1.7.7"
+  },
+  "devDependencies": {
+    "@wharf-gaming/typescript-config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
