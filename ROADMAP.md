@@ -4,7 +4,9 @@
 
 - Formatting package.json
 - Add package dev scripts
-
+- Add Effect_ts
+- rimraf package
+- satisfies type on clients
 
 ## Http Client
 
@@ -15,16 +17,18 @@
 
 - Add ZOD response validation
 - Add response transformers
+- Tests
 
 ## Hive Blockchain Client
 
-- TODO
+- Tests
 
 ## Splinterlands Blockchain Client
 
-- TODO
+- Tests
 
 ## Bots
 
 - Card Rental de-listing bot
 - Card Rental listing bot
+- Tests
