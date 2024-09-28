@@ -2,11 +2,6 @@
   "name": "@wharf-gaming/root",
   "version": "0.0.0",
   "private": true,
-  "packageManager": "pnpm@9.10.0",
-  "engines": {
-    "node": ">=20.x",
-    "pnpm": ">=9.x"
-  },
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev",
@@ -19,5 +14,10 @@
     "prettier": "^3.3.3",
     "sort-package-json": "^2.10.1",
     "turbo": "^2.1.2"
+  },
+  "packageManager": "pnpm@9.10.0",
+  "engines": {
+    "node": ">=20.x",
+    "pnpm": ">=9.x"
   }
 }

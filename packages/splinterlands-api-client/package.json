@@ -12,9 +12,9 @@
     "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@wharf-gaming/typescript-config": "workspace:*",
     "@wharf-gaming/http-client": "workspace:*",
     "@wharf-gaming/splinterlands-models": "workspace:*",
+    "@wharf-gaming/typescript-config": "workspace:*",
     "typescript": "catalog:"
   }
 }
