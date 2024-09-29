@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
+    "clean": "turbo clean",
     "dev": "turbo dev",
     "format": "pnpm run format:js && pnpm run format:package-json",
     "format:js": "prettier --write \"**/*.{ts,tsx}\"",
