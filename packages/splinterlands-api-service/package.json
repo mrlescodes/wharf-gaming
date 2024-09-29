@@ -1,5 +1,5 @@
 {
-  "name": "@wharf-gaming/splinterlands-api-client",
+  "name": "@wharf-gaming/splinterlands-api-service",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -12,9 +12,13 @@
     "clean": "rm -rf dist",
     "dev": "tsc -w"
   },
+  "dependencies": {
+    "@effect/platform": "catalog:",
+    "@effect/schema": "catalog:",
+    "effect": "catalog:",
+    "@wharf-gaming/splinterlands-models": "workspace:*"
+  },
   "devDependencies": {
-    "@wharf-gaming/http-client": "workspace:*",
-    "@wharf-gaming/splinterlands-models": "workspace:*",
     "@wharf-gaming/typescript-config": "workspace:*",
     "typescript": "catalog:"
   }
