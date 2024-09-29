@@ -1,0 +1,16 @@
+{
+  "name": "@wharf-gaming/sandbox",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsx watch src/index.ts",
+    "start": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@wharf-gaming/typescript-config": "workspace:*",
+    "tsx": "^4.19.1",
+    "typescript": "catalog:"
+  }
+}
