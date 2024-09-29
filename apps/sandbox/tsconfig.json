@@ -1,0 +1,10 @@
+{
+  "extends": "@wharf-gaming/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["ES2015", "DOM"],
+    "outDir": "./dist",
+    "rootDir": "./src"
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}
