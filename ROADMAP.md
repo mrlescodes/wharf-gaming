@@ -1,8 +1,13 @@
 # Roadmap
 
+## Pricing logic
+
+- Write up the rental pricing logic
+
 ## General
 
 - Formatting package.json
+- Double check transforms / responses and models
 - Add package dev scripts
 - Add Effect_ts
 - rimraf package

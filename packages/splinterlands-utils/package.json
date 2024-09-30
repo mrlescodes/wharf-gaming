@@ -1,5 +1,5 @@
 {
-  "name": "@wharf-gaming/splinterlands-api-service",
+  "name": "@wharf-gaming/splinterlands-utils",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
@@ -13,10 +13,7 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@effect/platform": "catalog:",
-    "@effect/schema": "catalog:",
-    "@wharf-gaming/splinterlands-models": "workspace:*",
-    "effect": "catalog:"
+    "@wharf-gaming/splinterlands-models": "workspace:*"
   },
   "devDependencies": {
     "@wharf-gaming/typescript-config": "workspace:*",

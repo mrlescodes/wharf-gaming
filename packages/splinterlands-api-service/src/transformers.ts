@@ -22,10 +22,12 @@ export const transformPlayerCardCollectionResponse = (
   return response.cards.map((card) => {
     return {
       player: card.player,
-      uid: card.uid,
+      id: card.id,
       cardDetailId: card.card_detail_id,
       gold: card.gold,
       bcx: card.bcx,
+      marketRentalStatus: card.market_listing_status,
+      marketListingPrice: card.buy_price,
     };
   }) satisfies PlayerCard[];
 };
