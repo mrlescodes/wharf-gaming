@@ -18,6 +18,34 @@ export const allCardsAreUnlisted = (cards: PlayerCard[]) => {
 };
 
 /**
+ * Checks if there are any cards listed for rent but no cards rented out.
+ */
+export const hasCardsListedNoneRented = (cards: PlayerCard[]) => {
+  const listedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+  );
+  const rentedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+
+  return listedCards.length > 0 && rentedCards.length === 0;
+};
+
+/**
+ * Checks if there are any cards listed for rent and at least some of them are rented out.
+ */
+export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
+  const listedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+  );
+  const rentedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+
+  return listedCards.length > 0 && rentedCards.length > 0;
+};
+
+/**
  * Retrieve cards that are currently unlisted.
  */
 export const getUnlistedCards = (cards: PlayerCard[]) => {
