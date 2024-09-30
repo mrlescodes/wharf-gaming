@@ -57,13 +57,14 @@ const makeSplinterlandsAPIService = Effect.gen(function* (_) {
   };
 });
 
-interface SplinterlandsAPIService
-  extends Effect.Effect.Success<typeof makeSplinterlandsAPIService> {}
-
-export const SplinterlandsAPIService =
-  Context.GenericTag<SplinterlandsAPIService>('SplinterlandsAPIService');
-
-export const SplinterlandsAPIServiceLive = Layer.effect(
+export class SplinterlandsAPIService extends Context.Tag(
+  'SplinterlandsAPIService',
+)<
   SplinterlandsAPIService,
-  makeSplinterlandsAPIService,
-).pipe(Layer.provide(FetchHttpClient.layer));
+  Effect.Effect.Success<typeof makeSplinterlandsAPIService>
+>() {
+  static readonly Live = Layer.effect(
+    SplinterlandsAPIService,
+    makeSplinterlandsAPIService,
+  ).pipe(Layer.provide(FetchHttpClient.layer));
+}
