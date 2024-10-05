@@ -22,7 +22,7 @@ export const transformPlayerCardCollectionResponse = (
   return response.cards.map((card) => {
     return {
       player: card.player,
-      id: card.id,
+      id: card.uid,
       cardDetailId: card.card_detail_id,
       gold: card.gold,
       bcx: card.bcx,

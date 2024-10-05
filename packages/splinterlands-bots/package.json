@@ -1,21 +1,25 @@
 {
-  "name": "@wharf-gaming/sandbox",
+  "name": "@wharf-gaming/splinterlands-bots",
   "version": "0.0.0",
   "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
   "scripts": {
     "build": "tsc",
     "clean": "rm -rf dist",
-    "dev": "tsx watch src/index.ts",
-    "start": "node dist/index.js"
+    "dev": "tsc -w"
   },
   "dependencies": {
     "@wharf-gaming/splinterlands-api-service": "workspace:*",
-    "@wharf-gaming/splinterlands-bots": "workspace:*",
+    "@wharf-gaming/splinterlands-models": "workspace:*",
+    "@wharf-gaming/splinterlands-utils": "workspace:*",
     "effect": "catalog:"
   },
   "devDependencies": {
     "@wharf-gaming/typescript-config": "workspace:*",
-    "tsx": "^4.19.1",
     "typescript": "catalog:"
   }
 }

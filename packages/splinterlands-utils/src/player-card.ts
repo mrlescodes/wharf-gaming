@@ -18,6 +18,34 @@ export const allCardsAreUnlisted = (cards: PlayerCard[]) => {
 };
 
 /**
+ * Checks if there are any cards listed for rent but no cards rented out.
+ */
+export const hasCardsListedNoneRented = (cards: PlayerCard[]) => {
+  const listedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+  );
+  const rentedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+
+  return listedCards.length > 0 && rentedCards.length === 0;
+};
+
+/**
+ * Checks if there are any cards listed for rent and at least some of them are rented out.
+ */
+export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
+  const listedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+  );
+  const rentedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+
+  return listedCards.length > 0 && rentedCards.length > 0;
+};
+
+/**
  * Retrieve cards that are currently unlisted.
  */
 export const getUnlistedCards = (cards: PlayerCard[]) => {
@@ -36,45 +64,25 @@ export const hasListedCardAtPrice = (cards: PlayerCard[], price: number) => {
 };
 
 /**
- * Checks if all the cards listed at a specific price are rented out.
+ * Get the highest rented card price.
  */
-export const allListedCardsAtPriceRented = (
-  cards: PlayerCard[],
-  price: number,
-) => {
+export const getHighestRentedCardPrice = (cards: PlayerCard[]) => {
   return cards
-    .filter((card) => card.marketListingPrice === price)
-    .every((card) => card.marketRentalStatus === MarketRentalStatus.RENTED);
+    .filter((card) => card.marketRentalStatus === MarketRentalStatus.RENTED)
+    .reduce(
+      (maxPrice, card) => Math.max(maxPrice, card.marketListingPrice || 0),
+      0,
+    );
 };
 
 /**
- * Sorts cards by their listing price in ascending order.
+ * Get the highest listed card price.
  */
-export const sortPlayerCardsByPrice = (cards: PlayerCard[]) => {
-  return cards.sort((a, b) => {
-    // If both prices are not null, compare them directly
-    if (a.marketListingPrice !== null && b.marketListingPrice !== null) {
-      return a.marketListingPrice - b.marketListingPrice;
-    }
-
-    // If one price is null, the card with null should come after the one with a price
-    if (a.marketListingPrice === null) return 1;
-    if (b.marketListingPrice === null) return -1;
-
-    // Should never reach this point, but added for safety
-    return 0;
-  });
-};
-
-/**
- * Determines the highest listing price among a set of cards.
- */
-export const getHighestPrice = (cards: PlayerCard[]) => {
-  const sortedCards = sortPlayerCardsByPrice(cards);
-
-  // Get the last card in the sorted array (this will have the highest price)
-  const highestPriceCard = sortedCards[sortedCards.length - 1];
-
-  // Return the highest price or 0 if it's null
-  return highestPriceCard?.marketListingPrice ?? 0;
+export const getHighestListedCardPrice = (cards: PlayerCard[]) => {
+  return cards
+    .filter((card) => card.marketRentalStatus === MarketRentalStatus.LISTED)
+    .reduce(
+      (maxPrice, card) => Math.max(maxPrice, card.marketListingPrice || 0),
+      0,
+    );
 };
