@@ -24,7 +24,7 @@ export const PlayerCardCollectionResponse = Schema.Struct({
   cards: Schema.Array(
     Schema.Struct({
       player: Schema.String,
-      id: Schema.String,
+      uid: Schema.String,
       card_detail_id: Schema.Number,
       gold: Schema.Boolean,
       bcx: Schema.Number,

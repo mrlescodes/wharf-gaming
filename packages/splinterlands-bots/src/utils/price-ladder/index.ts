@@ -1,1 +1,2 @@
 export * from './price-ladder';
+export * from './recommend-prices-from-ladder';

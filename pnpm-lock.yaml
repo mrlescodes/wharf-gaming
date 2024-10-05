@@ -34,6 +34,16 @@ importers:
         version: 2.1.2
 
   apps/sandbox:
+    dependencies:
+      '@wharf-gaming/splinterlands-api-service':
+        specifier: workspace:*
+        version: link:../../packages/splinterlands-api-service
+      '@wharf-gaming/splinterlands-bots':
+        specifier: workspace:*
+        version: link:../../packages/splinterlands-bots
+      effect:
+        specifier: 'catalog:'
+        version: 3.8.4
     devDependencies:
       '@wharf-gaming/typescript-config':
         specifier: workspace:*
@@ -85,6 +95,28 @@ importers:
       '@wharf-gaming/hive-blockchain-client':
         specifier: workspace:*
         version: link:../hive-blockchain-client
+    devDependencies:
+      '@wharf-gaming/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: 'catalog:'
+        version: 5.6.2
+
+  packages/splinterlands-bots:
+    dependencies:
+      '@wharf-gaming/splinterlands-api-service':
+        specifier: workspace:*
+        version: link:../splinterlands-api-service
+      '@wharf-gaming/splinterlands-models':
+        specifier: workspace:*
+        version: link:../splinterlands-models
+      '@wharf-gaming/splinterlands-utils':
+        specifier: workspace:*
+        version: link:../splinterlands-utils
+      effect:
+        specifier: 'catalog:'
+        version: 3.8.4
     devDependencies:
       '@wharf-gaming/typescript-config':
         specifier: workspace:*

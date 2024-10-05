@@ -1,7 +1,12 @@
-import { CardGroup } from '@wharf-gaming/splinterlands-models';
-import { hasCardsListedNoneRented } from '@wharf-gaming/splinterlands-utils';
+import { Effect } from 'effect';
 
-import { PriceLadder } from '..';
+import { CardGroup } from '@wharf-gaming/splinterlands-models';
+import {
+  getHighestListedCardPrice,
+  hasCardsListedNoneRented,
+} from '@wharf-gaming/splinterlands-utils';
+
+import { PriceLadder, recommendPricesFromLadder } from '..';
 
 /**
  * This is the scenario where cards are listed but none are rented out.
@@ -10,16 +15,32 @@ export const handleCardsListedNoneRentedScenario = (
   cardGroup: CardGroup,
   priceLadder: PriceLadder,
 ) => {
-  if (hasCardsListedNoneRented(cardGroup.cards)) {
-    return processCardsListedNoneRentedScenario(cardGroup, priceLadder);
+  if (!hasCardsListedNoneRented(cardGroup.cards)) {
+    return Effect.succeed([]);
   }
 
-  return null;
+  return processCardsListedNoneRentedScenario(cardGroup, priceLadder);
 };
 
 export const processCardsListedNoneRentedScenario = (
   cardGroup: CardGroup,
   priceLadder: PriceLadder,
 ) => {
-  // TODO: Implement logic
+  return Effect.gen(function* () {
+    const highestListedPrice = getHighestListedCardPrice(cardGroup.cards);
+    const highestListedPriceIndex = priceLadder.findIndex(
+      (step) => step.price === highestListedPrice,
+    );
+
+    // Out of Bounds guard
+    if (highestListedPriceIndex === -1) return [];
+
+    return recommendPricesFromLadder({
+      cards: cardGroup.cards,
+      priceLadder,
+      startIndex: highestListedPriceIndex,
+      stepCount: 3,
+      direction: 'down',
+    });
+  });
 };

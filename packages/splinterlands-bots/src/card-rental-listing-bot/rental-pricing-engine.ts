@@ -10,9 +10,12 @@ import {
   PriceLadder,
 } from '..';
 
-export const runRentalPricingEngine = (priceLadder: PriceLadder) => {
+export const runRentalPricingEngine = (
+  player: string,
+  priceLadder: PriceLadder,
+) => {
   return Effect.gen(function* () {
-    const cardGroups = yield* fetchGroupedPlayerCards;
+    const cardGroups = yield* fetchGroupedPlayerCards(player);
 
     const validCardGroups = cardGroups.filter((cardGroup) =>
       cardsAreValidForRental(cardGroup),
@@ -30,10 +33,12 @@ export const runRentalPricingEngine = (priceLadder: PriceLadder) => {
     // Process each card group and apply all scenarios
     for (const cardGroup of validCardGroups) {
       for (const handleScenario of scenarioHandlers) {
-        const recommendation = handleScenario(cardGroup, priceLadder);
+        const recommendations = yield* handleScenario(cardGroup, priceLadder);
 
-        if (recommendation) {
-          priceRecommendations.push(recommendation);
+        // Prevents further scenarios from being applied, currently our scenarios are mutually exclusive however this may not be the case in future
+        if (recommendations && recommendations.length > 0) {
+          priceRecommendations.push(...recommendations);
+          break;
         }
       }
     }

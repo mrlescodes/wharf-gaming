@@ -8,6 +8,11 @@
     "dev": "tsx watch src/index.ts",
     "start": "node dist/index.js"
   },
+  "dependencies": {
+    "@wharf-gaming/splinterlands-api-service": "workspace:*",
+    "@wharf-gaming/splinterlands-bots": "workspace:*",
+    "effect": "catalog:"
+  },
   "devDependencies": {
     "@wharf-gaming/typescript-config": "workspace:*",
     "tsx": "^4.19.1",

@@ -37,3 +37,4 @@
 - Card Rental de-listing bot
 - Card Rental listing bot
 - Tests
+- Better price ladder bounds handling, maybe a util function to get ladder step
