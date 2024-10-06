@@ -1,0 +1,24 @@
+{
+  "name": "@wharf-gaming/splinterlands-blockchain-service",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rm -rf dist",
+    "dev": "tsc -w"
+  },
+  "dependencies": {
+    "@wharf-gaming/hive-blockchain-client": "workspace:*",
+    "@wharf-gaming/splinterlands-models": "workspace:*",
+    "effect": "^3.8.4"
+  },
+  "devDependencies": {
+    "@wharf-gaming/typescript-config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}
