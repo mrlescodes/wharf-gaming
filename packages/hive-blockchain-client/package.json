@@ -1,5 +1,5 @@
 {
-  "name": "@wharf-gaming/hive-blockchain-service",
+  "name": "@wharf-gaming/hive-blockchain-client",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",

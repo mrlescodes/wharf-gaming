@@ -15,7 +15,7 @@ export interface TransactionConfirmation {
   expired: boolean;
 }
 
-const makeHiveBlockchainService = Effect.gen(function* (_) {
+const makeHiveBlockchainClient = Effect.gen(function* (_) {
   const client = new HiveClient([
     'https://api.hive.blog',
     'https://api.hivekings.com',
@@ -28,21 +28,21 @@ const makeHiveBlockchainService = Effect.gen(function* (_) {
       operation: BlockchainOperation,
       keyString: string,
       errMsg: string,
-    ): Effect.Effect<TransactionConfirmation, Error, never> => {
+    ) => {
       const privateKey = PrivateKey.fromString(keyString);
 
       return Effect.tryPromise({
         try: () => client.broadcast.json(operation, privateKey),
         // TODO: Effect error handling
         catch: (unknown) => new Error(`${errMsg} - ${unknown}`),
-      });
+      }) satisfies Effect.Effect<TransactionConfirmation, Error, never>;
     },
   };
 });
 
-export class HiveBlockchainService extends Context.Tag('HiveBlockchainService')<
-  HiveBlockchainService,
-  Effect.Effect.Success<typeof makeHiveBlockchainService>
+export class HiveBlockchainClient extends Context.Tag('HiveBlockchainClient')<
+  HiveBlockchainClient,
+  Effect.Effect.Success<typeof makeHiveBlockchainClient>
 >() {
-  static readonly Live = Layer.effect(this, makeHiveBlockchainService);
+  static readonly Live = Layer.effect(this, makeHiveBlockchainClient);
 }
