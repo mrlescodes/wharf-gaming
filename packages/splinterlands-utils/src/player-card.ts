@@ -64,6 +64,17 @@ export const hasListedCardAtPrice = (cards: PlayerCard[], price: number) => {
 };
 
 /**
+ * Checks if there are any cards rented at a specific price.
+ */
+export const hasRentedCardAtPrice = (cards: PlayerCard[], price: number) => {
+  return cards.some(
+    (card) =>
+      card.marketListingPrice === price &&
+      card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+};
+
+/**
  * Get the highest rented card price.
  */
 export const getHighestRentedCardPrice = (cards: PlayerCard[]) => {
