@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@wharf-gaming/splinterlands-api-service": "workspace:*",
+    "@wharf-gaming/splinterlands-blockchain-service": "workspace:*",
     "@wharf-gaming/splinterlands-bots": "workspace:*",
     "effect": "catalog:"
   },

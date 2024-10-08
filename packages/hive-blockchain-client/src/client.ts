@@ -1,4 +1,5 @@
-import { Client as HiveClient, PrivateKey } from '@hiveio/dhive';
+import { Client, PrivateKey } from '@hiveio/dhive';
+import { Context, Effect, Layer } from 'effect';
 
 export interface BlockchainOperation {
   id: string;
@@ -7,52 +8,45 @@ export interface BlockchainOperation {
   required_posting_auths: string[];
 }
 
-export type BlockchainTransactionConfirmation = {
+export interface BlockchainTransactionConfirmation {
   id: string;
   block_num: number;
   trx_num: number;
   expired: boolean;
-};
-
-export type BlockchainError =
-  | { type: 'BLOCKCHAIN_ERROR'; error: Error }
-  | { type: 'TRANSACTION_ERROR'; error: Error; details?: any };
-
-export interface BlockchainClient {
-  broadcastOperation(
-    operation: BlockchainOperation,
-    privateKey: string,
-    errMsg: string,
-  ): Promise<BlockchainTransactionConfirmation | BlockchainError>;
 }
 
-export const createBlockchainClient = (client: HiveClient) => {
+const makeHiveBlockchainClient = Effect.gen(function* (_) {
+  const client = new Client([
+    'https://api.hive.blog',
+    'https://api.hivekings.com',
+    'https://anyx.io',
+    'https://api.openhive.network',
+  ]);
+
   return {
-    broadcastOperation: async (
+    broadcastOperation: (
       operation: BlockchainOperation,
       keyString: string,
       errMsg: string,
-    ): Promise<BlockchainTransactionConfirmation | BlockchainError> => {
-      try {
-        const privateKey = PrivateKey.fromString(keyString);
+    ) => {
+      const privateKey = PrivateKey.fromString(keyString);
 
-        return await client.broadcast.json(operation, privateKey);
-      } catch (error) {
-        return {
-          type: 'TRANSACTION_ERROR',
-          error: error as Error,
-          details: errMsg,
-        };
-      }
+      return Effect.tryPromise({
+        // TODO: Review other possible solutions
+        // Explicitly declare the return type of the hive client method to resolve TS2742
+        // The inferred type cannot be named without a reference to @hiveio/dhive
+        try: (): Promise<BlockchainTransactionConfirmation> =>
+          client.broadcast.json(operation, privateKey),
+        // TODO: Effect error handling
+        catch: (unknown) => new Error(`${errMsg} - ${unknown}`),
+      });
     },
   };
-};
+});
 
-const hiveClient = new HiveClient([
-  'https://api.hive.blog',
-  'https://api.hivekings.com',
-  'https://anyx.io',
-  'https://api.openhive.network',
-]);
-
-export const blockchainClient = createBlockchainClient(hiveClient);
+export class HiveBlockchainClient extends Context.Tag('HiveBlockchainClient')<
+  HiveBlockchainClient,
+  Effect.Effect.Success<typeof makeHiveBlockchainClient>
+>() {
+  static readonly Live = Layer.effect(this, makeHiveBlockchainClient);
+}

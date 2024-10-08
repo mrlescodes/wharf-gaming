@@ -2,27 +2,27 @@ import { Effect } from 'effect';
 
 import { CardGroup } from '@wharf-gaming/splinterlands-models';
 import {
+  allListedCardsRented,
   getHighestRentedCardPrice,
-  hasCardsListedSomeRented,
 } from '@wharf-gaming/splinterlands-utils';
 
 import { PriceLadder, recommendPricesFromLadder } from '..';
 
 /**
- * This is the scenario where cards ares listed and some are rented out.
+ * This is the scenario where all listed cards are rented.
  */
-export const handleCardsListedSomeRentedScenario = (
+export const handleAllListedCardsRentedScenario = (
   cardGroup: CardGroup,
   priceLadder: PriceLadder,
 ) => {
-  if (!hasCardsListedSomeRented(cardGroup.cards)) {
+  if (!allListedCardsRented(cardGroup.cards)) {
     return Effect.succeed([]);
   }
 
-  return processCardsListedSomeRentedScenario(cardGroup, priceLadder);
+  return processAllListedCardsRentedScenario(cardGroup, priceLadder);
 };
 
-export const processCardsListedSomeRentedScenario = (
+export const processAllListedCardsRentedScenario = (
   cardGroup: CardGroup,
   priceLadder: PriceLadder,
 ) => {
@@ -41,7 +41,7 @@ export const processCardsListedSomeRentedScenario = (
       cards: cardGroup.cards,
       priceLadder,
       startIndex: highestRentedCardPriceIndex,
-      stepCount: 3,
+      stepCount: 1,
       direction: 'down',
     });
   });
