@@ -1,4 +1,4 @@
-import { Client as HiveClient, PrivateKey } from '@hiveio/dhive';
+import { Client, PrivateKey } from '@hiveio/dhive';
 import { Context, Effect, Layer } from 'effect';
 
 export interface BlockchainOperation {
@@ -8,7 +8,7 @@ export interface BlockchainOperation {
   required_posting_auths: string[];
 }
 
-export interface TransactionConfirmation {
+export interface BlockchainTransactionConfirmation {
   id: string;
   block_num: number;
   trx_num: number;
@@ -16,7 +16,7 @@ export interface TransactionConfirmation {
 }
 
 const makeHiveBlockchainClient = Effect.gen(function* (_) {
-  const client = new HiveClient([
+  const client = new Client([
     'https://api.hive.blog',
     'https://api.hivekings.com',
     'https://anyx.io',
@@ -32,10 +32,14 @@ const makeHiveBlockchainClient = Effect.gen(function* (_) {
       const privateKey = PrivateKey.fromString(keyString);
 
       return Effect.tryPromise({
-        try: () => client.broadcast.json(operation, privateKey),
+        // TODO: Review other possible solutions
+        // Explicitly declare the return type of the hive client method to resolve TS2742
+        // The inferred type cannot be named without a reference to @hiveio/dhive
+        try: (): Promise<BlockchainTransactionConfirmation> =>
+          client.broadcast.json(operation, privateKey),
         // TODO: Effect error handling
         catch: (unknown) => new Error(`${errMsg} - ${unknown}`),
-      }) satisfies Effect.Effect<TransactionConfirmation, Error, never>;
+      });
     },
   };
 });
