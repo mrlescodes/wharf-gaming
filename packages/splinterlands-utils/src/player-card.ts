@@ -32,7 +32,7 @@ export const hasCardsListedNoneRented = (cards: PlayerCard[]) => {
 };
 
 /**
- * Checks if there are any cards listed for rent and at least some of them are rented out.
+ * Checks if there are cards listed for rent and at least some of them are rented out.
  */
 export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
   const listedCards = cards.filter(
@@ -43,6 +43,20 @@ export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
   );
 
   return listedCards.length > 0 && rentedCards.length > 0;
+};
+
+/**
+ * Checks if all listed cards are rented.
+ */
+export const allListedCardsRented = (cards: PlayerCard[]) => {
+  const listedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+  );
+  const rentedCards = cards.filter(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+
+  return listedCards.length === 0 && rentedCards.length > 0;
 };
 
 /**
