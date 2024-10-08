@@ -4,13 +4,14 @@ import { cardsAreValidForRental } from '@wharf-gaming/splinterlands-utils';
 
 import {
   fetchGroupedPlayerCards,
+  handleAllListedCardsRentedScenario,
   handleCardsListedNoneRentedScenario,
   handleCardsListedSomeRentedScenario,
   handleNoCardsListedScenario,
   PriceLadder,
 } from '..';
 
-export const runRentalPricingEngine = (
+export const rentalPricingEngine = (
   player: string,
   priceLadder: PriceLadder,
 ) => {
@@ -28,6 +29,7 @@ export const runRentalPricingEngine = (
       handleNoCardsListedScenario,
       handleCardsListedNoneRentedScenario,
       handleCardsListedSomeRentedScenario,
+      handleAllListedCardsRentedScenario,
     ];
 
     // Process each card group and apply all scenarios

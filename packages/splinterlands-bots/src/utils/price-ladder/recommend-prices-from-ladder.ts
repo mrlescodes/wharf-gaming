@@ -2,6 +2,7 @@ import { PlayerCard } from '@wharf-gaming/splinterlands-models';
 import {
   getUnlistedCards,
   hasListedCardAtPrice,
+  hasRentedCardAtPrice,
 } from '@wharf-gaming/splinterlands-utils';
 
 import { PriceLadder } from '.';
@@ -46,8 +47,12 @@ export const recommendPricesFromLadder = ({
 
     const step = priceLadder[index];
 
-    // Skip this iteration if the step is not defined or if a card is already listed at this price
-    if (!step || hasListedCardAtPrice(cards, step.price)) {
+    // Skip this iteration if the step is not defined or if a card is already listed or rented at this price
+    if (
+      !step ||
+      hasListedCardAtPrice(cards, step.price) ||
+      hasRentedCardAtPrice(cards, step.price)
+    ) {
       continue;
     }
 
