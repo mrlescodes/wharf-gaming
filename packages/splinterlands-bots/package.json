@@ -13,8 +13,8 @@
     "dev": "tsc -w"
   },
   "dependencies": {
-    "@wharf-gaming/splinterlands-api-service": "workspace:*",
-    "@wharf-gaming/splinterlands-blockchain-service": "workspace:*",
+    "@wharf-gaming/splinterlands-api-client": "workspace:*",
+    "@wharf-gaming/splinterlands-blockchain-client": "workspace:*",
     "@wharf-gaming/splinterlands-models": "workspace:*",
     "@wharf-gaming/splinterlands-utils": "workspace:*",
     "effect": "catalog:"
