@@ -1,8 +1,16 @@
 import { Schema } from '@effect/schema';
 
-import { Card, PlayerCard } from '@wharf-gaming/splinterlands-models';
+import {
+  Card,
+  MarketListing,
+  PlayerCard,
+} from '@wharf-gaming/splinterlands-models';
 
-import { CardDetailsResponse, PlayerCardCollectionResponse } from '.';
+import {
+  CardDetailsResponse,
+  MarketQueryByCardResponse,
+  PlayerCardCollectionResponse,
+} from '.';
 
 export const transformCardDetailsResponse = (
   response: Schema.Schema.Type<typeof CardDetailsResponse>,
@@ -10,10 +18,26 @@ export const transformCardDetailsResponse = (
   return response.map((card) => {
     return {
       id: card.id,
-      rarity: card.rarity,
       name: card.name,
+      rarity: card.rarity,
     };
   }) satisfies Card[];
+};
+
+export const transformMarketQueryByCardResponse = (
+  response: Schema.Schema.Type<typeof MarketQueryByCardResponse>,
+) => {
+  return response.map((listing) => {
+    return {
+      cardId: listing.uid,
+      price: listing.buy_price,
+      bcx: listing.bcx,
+      type: listing.type,
+      rentalType: listing.rental_type,
+      gold: listing.gold,
+      cardDetailId: listing.card_detail_id,
+    };
+  }) satisfies MarketListing[];
 };
 
 export const transformPlayerCardCollectionResponse = (
@@ -22,12 +46,13 @@ export const transformPlayerCardCollectionResponse = (
   return response.cards.map((card) => {
     return {
       player: card.player,
-      id: card.uid,
+      cardId: card.uid,
       cardDetailId: card.card_detail_id,
       gold: card.gold,
-      bcx: card.bcx,
-      marketRentalStatus: card.market_listing_status,
       marketListingPrice: card.buy_price,
+      marketListingType: card.market_listing_type,
+      marketRentalStatus: card.market_listing_status,
+      bcx: card.bcx,
     };
   }) satisfies PlayerCard[];
 };
