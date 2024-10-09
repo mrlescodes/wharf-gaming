@@ -7,9 +7,17 @@ import {
 import { Context, Effect, Layer } from 'effect';
 
 import {
+  MarketListingType,
+  MarketRentalType,
+} from '@wharf-gaming/splinterlands-models';
+
+import {
+  buildQueryString,
   CardDetailsResponse,
+  MarketQueryByCardResponse,
   PlayerCardCollectionResponse,
   transformCardDetailsResponse,
+  transformMarketQueryByCardResponse,
   transformPlayerCardCollectionResponse,
 } from '.';
 
@@ -38,6 +46,37 @@ const makeSplinterlandsAPIService = Effect.gen(function* () {
           );
 
         return transformCardDetailsResponse(validatedResponse);
+      }).pipe(Effect.scoped),
+
+    /**
+     * Documentation
+     *
+     * @see https://api2.splinterlands.com/doc/#/default/get_market_market_query_by_card
+     */
+    getMarketQueryByCard: (requestParams: {
+      cardDetailId: number;
+      level?: number;
+      gold?: boolean;
+      type?: MarketListingType;
+      rentalType?: MarketRentalType;
+    }) =>
+      Effect.gen(function* () {
+        const paramMapping = {
+          cardDetailId: 'card_detail_id',
+          rentalType: 'rental_type',
+        };
+
+        const queryString = buildQueryString(requestParams, paramMapping);
+
+        const response = yield* client.get(
+          `/market/market_query_by_card?${queryString.toString()}`,
+        );
+
+        const validatedResponse = yield* HttpClientResponse.schemaBodyJson(
+          MarketQueryByCardResponse,
+        )(response);
+
+        return transformMarketQueryByCardResponse(validatedResponse);
       }).pipe(Effect.scoped),
 
     /**
