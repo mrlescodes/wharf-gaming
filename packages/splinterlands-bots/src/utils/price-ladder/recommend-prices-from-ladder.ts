@@ -61,7 +61,7 @@ export const recommendPricesFromLadder = ({
     if (cardToList) {
       recommendations.push({
         price: step.price,
-        cardId: cardToList.id,
+        cardId: cardToList.cardId,
       });
     }
   }
