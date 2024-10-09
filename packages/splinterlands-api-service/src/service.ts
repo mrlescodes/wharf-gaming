@@ -13,8 +13,8 @@ import {
   transformPlayerCardCollectionResponse,
 } from '.';
 
-const makeSplinterlandsAPIService = Effect.gen(function* (_) {
-  const defaultClient = yield* _(HttpClient.HttpClient);
+const makeSplinterlandsAPIService = Effect.gen(function* () {
+  const defaultClient = yield* HttpClient.HttpClient;
 
   const client = defaultClient.pipe(
     HttpClient.mapRequest(
@@ -30,11 +30,12 @@ const makeSplinterlandsAPIService = Effect.gen(function* (_) {
      */
     getCardDetails: () =>
       Effect.gen(function* () {
-        const response = yield* _(client.get('/cards/get_details'));
+        const response = yield* client.get('/cards/get_details');
 
-        const validatedResponse = yield* _(
-          HttpClientResponse.schemaBodyJson(CardDetailsResponse)(response),
-        );
+        const validatedResponse =
+          yield* HttpClientResponse.schemaBodyJson(CardDetailsResponse)(
+            response,
+          );
 
         return transformCardDetailsResponse(validatedResponse);
       }).pipe(Effect.scoped),
@@ -44,13 +45,11 @@ const makeSplinterlandsAPIService = Effect.gen(function* (_) {
      */
     getPlayerCardCollection: (player: string) =>
       Effect.gen(function* () {
-        const response = yield* _(client.get(`/cards/collection/${player}`));
+        const response = yield* client.get(`/cards/collection/${player}`);
 
-        const validatedResponse = yield* _(
-          HttpClientResponse.schemaBodyJson(PlayerCardCollectionResponse)(
-            response,
-          ),
-        );
+        const validatedResponse = yield* HttpClientResponse.schemaBodyJson(
+          PlayerCardCollectionResponse,
+        )(response);
 
         return transformPlayerCardCollectionResponse(validatedResponse);
       }).pipe(Effect.scoped),
