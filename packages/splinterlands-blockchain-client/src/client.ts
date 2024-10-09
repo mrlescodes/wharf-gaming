@@ -6,7 +6,7 @@ import {
   Currency,
 } from '@wharf-gaming/splinterlands-models';
 
-const makeSplinterlandsBlockchainService = Effect.gen(function* (_) {
+const makeSplinterlandsBlockchainClient = Effect.gen(function* (_) {
   const client = yield* _(HiveBlockchainClient);
 
   return {
@@ -42,14 +42,14 @@ const makeSplinterlandsBlockchainService = Effect.gen(function* (_) {
   };
 });
 
-export class SplinterlandsBlockchainService extends Context.Tag(
-  'SplinterlandsBlockchainService',
+export class SplinterlandsBlockchainClient extends Context.Tag(
+  'SplinterlandsBlockchainClient',
 )<
-  SplinterlandsBlockchainService,
-  Effect.Effect.Success<typeof makeSplinterlandsBlockchainService>
+  SplinterlandsBlockchainClient,
+  Effect.Effect.Success<typeof makeSplinterlandsBlockchainClient>
 >() {
   static readonly Live = Layer.effect(
-    SplinterlandsBlockchainService,
-    makeSplinterlandsBlockchainService,
+    SplinterlandsBlockchainClient,
+    makeSplinterlandsBlockchainClient,
   ).pipe(Layer.provide(HiveBlockchainClient.Live));
 }

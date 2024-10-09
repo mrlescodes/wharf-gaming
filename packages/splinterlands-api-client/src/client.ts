@@ -21,7 +21,7 @@ import {
   transformPlayerCardCollectionResponse,
 } from '.';
 
-const makeSplinterlandsAPIService = Effect.gen(function* () {
+const makeSplinterlandsAPIClient = Effect.gen(function* () {
   const defaultClient = yield* HttpClient.HttpClient;
 
   const client = defaultClient.pipe(
@@ -95,14 +95,14 @@ const makeSplinterlandsAPIService = Effect.gen(function* () {
   };
 });
 
-export class SplinterlandsAPIService extends Context.Tag(
-  'SplinterlandsAPIService',
+export class SplinterlandsAPIClient extends Context.Tag(
+  'SplinterlandsAPIClient',
 )<
-  SplinterlandsAPIService,
-  Effect.Effect.Success<typeof makeSplinterlandsAPIService>
+  SplinterlandsAPIClient,
+  Effect.Effect.Success<typeof makeSplinterlandsAPIClient>
 >() {
   static readonly Live = Layer.effect(
-    SplinterlandsAPIService,
-    makeSplinterlandsAPIService,
+    SplinterlandsAPIClient,
+    makeSplinterlandsAPIClient,
   ).pipe(Layer.provide(FetchHttpClient.layer));
 }

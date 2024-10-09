@@ -1,19 +1,18 @@
 import { Effect } from 'effect';
 
-import { SplinterlandsAPIService } from '@wharf-gaming/splinterlands-api-service';
+import { SplinterlandsAPIClient } from '@wharf-gaming/splinterlands-api-client';
 import { CardGroup } from '@wharf-gaming/splinterlands-models';
 
 export const fetchGroupedPlayerCards = (player: string) => {
   return Effect.gen(function* () {
-    const splinterlandsAPIService = yield* SplinterlandsAPIService;
+    const client = yield* SplinterlandsAPIClient;
 
-    const cards = yield* splinterlandsAPIService.getCardDetails();
+    const cards = yield* client.getCardDetails();
 
     // Create a map of card details for quick lookup
     const cardDetailsMap = new Map(cards.map((card) => [card.id, card]));
 
-    const playerCards =
-      yield* splinterlandsAPIService.getPlayerCardCollection(player);
+    const playerCards = yield* client.getPlayerCardCollection(player);
 
     // Create a map for grouping cards
     const groupedCardsMap = new Map<string, CardGroup>();
