@@ -1,11 +1,12 @@
-import { MarketRentalStatus } from '..';
+import { MarketListingType, MarketRentalStatus } from '..';
 
 export interface PlayerCard {
   player: string;
-  id: string;
+  cardId: string;
   cardDetailId: number;
   gold: boolean;
-  bcx: number;
-  marketRentalStatus: MarketRentalStatus | null;
   marketListingPrice: number | null;
+  marketListingType: MarketListingType | null;
+  marketRentalStatus: MarketRentalStatus | null; // TODO: Review market_listing_status, does this only apply to rentals or sales too?
+  bcx: number;
 }

@@ -3,3 +3,8 @@ export enum MarketRentalStatus {
   UNKNOWN = 1,
   RENTED = 3,
 }
+
+export enum MarketRentalType {
+  Daily = 'daily',
+  Season = 'season',
+}
