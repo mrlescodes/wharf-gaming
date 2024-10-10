@@ -1,5 +1,5 @@
 {
-  "name": "@wharf-gaming/splinterlands-api-service",
+  "name": "@wharf-gaming/splinterlands-api-client",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",

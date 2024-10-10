@@ -1,5 +1,5 @@
 {
-  "name": "@wharf-gaming/splinterlands-blockchain-service",
+  "name": "@wharf-gaming/splinterlands-blockchain-client",
   "version": "0.0.0",
   "private": true,
   "main": "./dist/index.js",
