@@ -41,7 +41,7 @@ export const processCardsListedSomeRentedScenario = (
       cards: cardGroup.cards,
       priceLadder,
       startIndex: highestRentedCardPriceIndex,
-      stepCount: 3,
+      stepCount: 1,
       direction: 'down',
     });
   });
