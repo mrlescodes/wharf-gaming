@@ -60,6 +60,15 @@ export const allListedCardsRented = (cards: PlayerCard[]) => {
 };
 
 /**
+ * Checks if all available cards are rented.
+ */
+export const allAvailableCardsRented = (cards: PlayerCard[]) => {
+  return cards.every(
+    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+  );
+};
+
+/**
  * Retrieve cards that are currently unlisted.
  */
 export const getUnlistedCards = (cards: PlayerCard[]) => {
