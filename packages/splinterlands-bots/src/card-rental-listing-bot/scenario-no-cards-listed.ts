@@ -1,9 +1,17 @@
 import { Effect } from 'effect';
 
 import { CardGroup } from '@wharf-gaming/splinterlands-models';
-import { allCardsAreUnlisted } from '@wharf-gaming/splinterlands-utils';
+import {
+  allCardsAreUnlisted,
+  computeCardLevel,
+} from '@wharf-gaming/splinterlands-utils';
 
-import { PriceLadder, recommendPricesFromLadder } from '..';
+import {
+  fetchLowestRentalCardPrice,
+  getIndexForTargetPrice,
+  PriceLadder,
+  recommendPricesFromLadder,
+} from '..';
 
 /**
  * This is the scenario when no cards are listed.
@@ -24,11 +32,25 @@ export const processNoCardsListedScenario = (
   priceLadder: PriceLadder,
 ) => {
   return Effect.gen(function* () {
+    const lowestRentalCardPrice = yield* fetchLowestRentalCardPrice({
+      cardDetailId: cardGroup.cardGroupingInfo.cardDetailId,
+      gold: cardGroup.cardGroupingInfo.gold,
+      level: computeCardLevel(
+        cardGroup.cardDetails.rarity,
+        cardGroup.cardGroupingInfo.bcx,
+      ),
+    });
+
+    const startIndex = getIndexForTargetPrice(
+      lowestRentalCardPrice,
+      priceLadder,
+    );
+
     return recommendPricesFromLadder({
       cards: cardGroup.cards,
       priceLadder,
-      startIndex: 0,
-      stepCount: 3,
+      startIndex,
+      stepCount: 1,
       direction: 'up',
     });
   });
