@@ -5,6 +5,7 @@ export interface PlayerCard {
   cardId: string;
   cardDetailId: number;
   gold: boolean;
+  edition: number;
   marketListingPrice: number | null;
   marketListingType: MarketListingType | null;
   marketRentalStatus: MarketRentalStatus | null; // TODO: Review market_listing_status, does this only apply to rentals or sales too?
