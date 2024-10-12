@@ -1,66 +1,119 @@
-import { CardRarity } from '@wharf-gaming/splinterlands-models';
+import {
+  CardGroupDetails,
+  CardRarity,
+} from '@wharf-gaming/splinterlands-models';
 
-export const cardCombineRates = [
-  [1, 5, 14, 30, 60, 100, 150, 220, 300, 400], // Common
-  [1, 5, 14, 25, 40, 60, 85, 115], // Rare
-  [1, 4, 10, 20, 32, 46], // Epic
-  [1, 3, 6, 11], // Legendary
-];
+export const alphaCardCombineRates = {
+  1: [1, 2, 4, 9, 19, 39, 79, 129, 229, 379],
+  2: [1, 2, 4, 8, 16, 26, 46, 86],
+  3: [1, 2, 4, 8, 16, 32],
+  4: [1, 2, 4, 8],
+} satisfies Record<CardRarity, number[]>;
+
+export const alphaGoldCardCombineRates = {
+  1: [0, 0, 0, 1, 2, 4, 7, 11, 19, 31],
+  2: [0, 0, 1, 2, 3, 5, 9, 17],
+  3: [0, 0, 1, 2, 4, 8],
+  4: [0, 1, 2, 3],
+} satisfies Record<CardRarity, number[]>;
+
+export const betaCardCombineRates = {
+  1: [1, 3, 5, 12, 25, 52, 105, 172, 305, 505],
+  2: [1, 3, 5, 11, 21, 35, 61, 115],
+  3: [1, 3, 6, 11, 23, 46],
+  4: [1, 3, 5, 11],
+} satisfies Record<CardRarity, number[]>;
+
+export const betaGoldCardCombineRates = {
+  1: [0, 0, 0, 1, 2, 4, 8, 13, 23, 38],
+  2: [0, 0, 1, 2, 4, 7, 12, 22],
+  3: [0, 0, 1, 3, 5, 10],
+  4: [0, 1, 2, 4],
+} satisfies Record<CardRarity, number[]>;
+
+// XP System changes with Untamed (224 is first untamed card). Untamed and onwards use
+// the below rates with the exception of Halfling Alchemist & Mighty Dricken
+export const cardCombineRates = {
+  1: [1, 5, 14, 30, 60, 100, 150, 220, 300, 400],
+  2: [1, 5, 14, 25, 40, 60, 85, 115],
+  3: [1, 4, 10, 20, 32, 46],
+  4: [1, 3, 6, 11],
+} satisfies Record<CardRarity, number[]>;
+
+export const goldCardCombineRates = {
+  1: [0, 0, 1, 2, 5, 9, 14, 20, 27, 38],
+  2: [0, 1, 2, 4, 7, 11, 16, 22],
+  3: [0, 1, 2, 4, 7, 10],
+  4: [0, 1, 2, 4],
+} satisfies Record<CardRarity, number[]>;
+
+// Alpha Promo Cards: 75 - "Dragon Whelp", 76 - "Royal Dragon Archer", 77 - "Shin-Lo", 78 - "Neb Seni",
+function usesAlphaCombineRates(cardGroupDetails: CardGroupDetails) {
+  return (
+    cardGroupDetails.edition === 0 ||
+    (cardGroupDetails.edition === 2 && cardGroupDetails.cardDetailId <= 77)
+  );
+}
+
+// Beta Cards Start at 79 - "Highland Archer"
+function usesBetaCombineRates(cardGroupDetails: CardGroupDetails) {
+  // Halfling Alchemist || Mighty Dricken
+  if (
+    cardGroupDetails.cardDetailId === 237 ||
+    cardGroupDetails.cardDetailId === 238
+  ) {
+    return true;
+  }
+
+  return (
+    cardGroupDetails.edition === 1 ||
+    (cardGroupDetails.edition === 2 && cardGroupDetails.cardDetailId <= 223) ||
+    (cardGroupDetails.edition === 3 && cardGroupDetails.cardDetailId <= 223)
+  );
+}
+
+/**
+ * Determine which card combine rates to use
+ */
+function determineCardCombineRates(cardGroupDetails: CardGroupDetails) {
+  if (usesAlphaCombineRates(cardGroupDetails)) {
+    return cardGroupDetails.gold
+      ? alphaGoldCardCombineRates
+      : alphaCardCombineRates;
+  }
+
+  if (usesBetaCombineRates(cardGroupDetails)) {
+    return cardGroupDetails.gold
+      ? betaGoldCardCombineRates
+      : betaCardCombineRates;
+  }
+
+  return cardGroupDetails.gold ? goldCardCombineRates : cardCombineRates;
+}
+
+/**
+ * Calculates the level of a card
+ */
+export const calculateCardLevel = (cardGroupDetails: CardGroupDetails) => {
+  const combineRates = determineCardCombineRates(cardGroupDetails);
+
+  // Get the combine rates for the given rarity
+  const rates = combineRates[cardGroupDetails.rarity];
+
+  return rates.filter((r) => r <= cardGroupDetails.bcx).length;
+};
 
 /**
  * Checks if a card is an exact combine. An exact combine
  * is where the BCX matches one of the possible card combination
  * levels for its rarity.
  */
-export const cardIsExactCombine = (
-  rarity: CardRarity,
-  bcx: number,
-): boolean => {
+export const cardIsExactCombine = (cardGroupDetails: CardGroupDetails) => {
+  const combineRates = determineCardCombineRates(cardGroupDetails);
+
   // Get the combine rates for the given rarity
-  const rates = cardCombineRates[rarity - 1];
+  const rates = combineRates[cardGroupDetails.rarity];
 
-  // Check if rates exist for the given rarity and if BCX matches any of the combine rates
-  return rates ? rates.includes(bcx) : false;
-};
-
-/**
- * Computes the level of a card based on its bcx and rarity.
- *
- * TODO: This does not cover all of the possible card combine rates (Alpha, gold foil etc...)
- *
- * @see https://peakd.com/splinterlands/@bauloewe/programming-tutorial-renting-your-splinterlands-card-collection-with-python
- *
- * @param {CardRarity} rarity The rarity of the card (1-4).
- * @param {number} bcx The battle card experience of the card.
- * @returns {number} The level of the card.
- */
-export const computeCardLevel = (rarity: CardRarity, bcx: number): number => {
-  const rates = cardCombineRates[rarity - 1];
-
-  let level = 1;
-
-  // Ensure rates are defined and contain valid values
-  if (!rates || rates.length === 0) {
-    // TODO: LOG Invalid rarity or missing combine rates: ${rarity}
-    return level;
-  }
-
-  // Loop through the rates to determine the card's level
-  for (let i = 0; i < rates.length; i++) {
-    const rate = rates[i];
-
-    // Ensure rate is defined before comparison
-    if (typeof rate !== 'number') {
-      // TODO: LOG Error Invalid combine rate at level ${i + 1}
-      return level;
-    }
-
-    if (bcx >= rate) {
-      level = i + 1;
-    } else {
-      break;
-    }
-  }
-
-  return level;
+  // Check if BCX matches any of the combine rates
+  return rates.includes(cardGroupDetails.bcx);
 };
