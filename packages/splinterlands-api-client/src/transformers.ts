@@ -52,7 +52,7 @@ export const transformPlayerCardCollectionResponse = (
       edition: card.edition,
       marketListingPrice: card.buy_price,
       marketListingType: card.market_listing_type,
-      marketRentalStatus: card.market_listing_status,
+      marketListingStatus: card.market_listing_status,
       bcx: card.bcx,
     };
   }) satisfies PlayerCard[];
