@@ -1,6 +1,6 @@
 import { Effect } from 'effect';
 
-import { CardGroupingInfo } from '@wharf-gaming/splinterlands-models';
+import { CardGroupDetails } from '@wharf-gaming/splinterlands-models';
 
 import {
   fetchGroupedPlayerCards,
@@ -12,7 +12,7 @@ export const rentalPriceAnalysisEngine = (player: string) => {
     const cardGroups = yield* fetchGroupedPlayerCards(player);
 
     // TODO: Return a purchase recommendation instead?
-    let priceAnalysis: CardGroupingInfo[] = [];
+    let priceAnalysis: CardGroupDetails[] = [];
 
     // List of scenario handlers
     const scenarioHandlers = [handleAllAvailableCardsRentedScenario];

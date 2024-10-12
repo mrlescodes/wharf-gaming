@@ -18,6 +18,6 @@ export const processAllAvailableCardsRentedScenario = (
   cardGroup: CardGroup,
 ) => {
   return Effect.gen(function* () {
-    return [cardGroup.cardGroupingInfo];
+    return [cardGroup.cardGroupDetails];
   });
 };

@@ -1,3 +1,4 @@
+export * from './card-rental-listing-bot';
 export * from './rental-pricing-engine';
 export * from './scenario-all-listed-cards-rented';
 export * from './scenario-cards-listed-none-rented';

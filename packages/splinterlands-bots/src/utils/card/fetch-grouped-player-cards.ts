@@ -1,7 +1,10 @@
 import { Effect } from 'effect';
 
 import { SplinterlandsAPIClient } from '@wharf-gaming/splinterlands-api-client';
-import { CardGroup } from '@wharf-gaming/splinterlands-models';
+import {
+  CardGroup,
+  CardGroupDetails,
+} from '@wharf-gaming/splinterlands-models';
 
 export const fetchGroupedPlayerCards = (player: string) => {
   return Effect.gen(function* () {
@@ -20,14 +23,16 @@ export const fetchGroupedPlayerCards = (player: string) => {
     // Iterate over player cards and group them
     for (const playerCard of playerCards) {
       // Define the grouping information, cards that have equal values for the below are effectively identical.
-      const groupingInfo = {
+      const cardGroupDetails = {
         cardDetailId: playerCard.cardDetailId,
         bcx: playerCard.bcx,
         gold: playerCard.gold,
-      };
+        edition: playerCard.edition,
+        rarity: cardDetailsMap.get(playerCard.cardDetailId)?.rarity!, // TODO: Handle case where this doesn't exist. In reality this should always exist
+      } satisfies CardGroupDetails;
 
       // Create a unique key for grouping based on the grouping info
-      const groupingKey = `${groupingInfo.cardDetailId}-${groupingInfo.bcx}-${groupingInfo.gold}`;
+      const groupingKey = `${cardGroupDetails.cardDetailId}-${cardGroupDetails.bcx}-${cardGroupDetails.gold}-${cardGroupDetails.edition}`;
 
       // If the group doesn't exist, create a new one
       if (!groupedCardsMap.has(groupingKey)) {
@@ -38,8 +43,7 @@ export const fetchGroupedPlayerCards = (player: string) => {
         if (cardDetails) {
           groupedCardsMap.set(groupingKey, {
             cards: [],
-            cardDetails: cardDetails,
-            cardGroupingInfo: groupingInfo,
+            cardGroupDetails,
           });
         }
       }
