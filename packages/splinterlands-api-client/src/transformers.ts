@@ -49,9 +49,10 @@ export const transformPlayerCardCollectionResponse = (
       cardId: card.uid,
       cardDetailId: card.card_detail_id,
       gold: card.gold,
+      edition: card.edition,
       marketListingPrice: card.buy_price,
       marketListingType: card.market_listing_type,
-      marketRentalStatus: card.market_listing_status,
+      marketListingStatus: card.market_listing_status,
       bcx: card.bcx,
     };
   }) satisfies PlayerCard[];

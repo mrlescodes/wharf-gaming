@@ -1,20 +1,22 @@
 import {
-  MarketRentalStatus,
+  MarketListingStatus,
   PlayerCard,
 } from '@wharf-gaming/splinterlands-models';
+
+// TODO: Account for SELL / RENT listing type
 
 /**
  * Checks if there are any unlisted cards.
  */
 export const hasUnlistedCard = (cards: PlayerCard[]) => {
-  return cards.some((card) => card.marketRentalStatus === null);
+  return cards.some((card) => card.marketListingStatus === null);
 };
 
 /**
  * Checks if all cards are unlisted.
  */
 export const allCardsAreUnlisted = (cards: PlayerCard[]) => {
-  return cards.every((card) => card.marketRentalStatus === null);
+  return cards.every((card) => card.marketListingStatus === null);
 };
 
 /**
@@ -22,10 +24,10 @@ export const allCardsAreUnlisted = (cards: PlayerCard[]) => {
  */
 export const hasCardsListedNoneRented = (cards: PlayerCard[]) => {
   const listedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+    (card) => card.marketListingStatus === MarketListingStatus.LISTED,
   );
   const rentedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+    (card) => card.marketListingStatus === MarketListingStatus.RENTED,
   );
 
   return listedCards.length > 0 && rentedCards.length === 0;
@@ -36,10 +38,10 @@ export const hasCardsListedNoneRented = (cards: PlayerCard[]) => {
  */
 export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
   const listedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+    (card) => card.marketListingStatus === MarketListingStatus.LISTED,
   );
   const rentedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+    (card) => card.marketListingStatus === MarketListingStatus.RENTED,
   );
 
   return listedCards.length > 0 && rentedCards.length > 0;
@@ -50,10 +52,10 @@ export const hasCardsListedSomeRented = (cards: PlayerCard[]) => {
  */
 export const allListedCardsRented = (cards: PlayerCard[]) => {
   const listedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.LISTED,
+    (card) => card.marketListingStatus === MarketListingStatus.LISTED,
   );
   const rentedCards = cards.filter(
-    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+    (card) => card.marketListingStatus === MarketListingStatus.RENTED,
   );
 
   return listedCards.length === 0 && rentedCards.length > 0;
@@ -64,7 +66,7 @@ export const allListedCardsRented = (cards: PlayerCard[]) => {
  */
 export const allAvailableCardsRented = (cards: PlayerCard[]) => {
   return cards.every(
-    (card) => card.marketRentalStatus === MarketRentalStatus.RENTED,
+    (card) => card.marketListingStatus === MarketListingStatus.RENTED,
   );
 };
 
@@ -72,7 +74,7 @@ export const allAvailableCardsRented = (cards: PlayerCard[]) => {
  * Retrieve cards that are currently unlisted.
  */
 export const getUnlistedCards = (cards: PlayerCard[]) => {
-  return cards.filter((card) => card.marketRentalStatus === null);
+  return cards.filter((card) => card.marketListingStatus === null);
 };
 
 /**
@@ -82,7 +84,7 @@ export const hasListedCardAtPrice = (cards: PlayerCard[], price: number) => {
   return cards.some(
     (card) =>
       card.marketListingPrice === price &&
-      card.marketRentalStatus === MarketRentalStatus.LISTED,
+      card.marketListingStatus === MarketListingStatus.LISTED,
   );
 };
 
@@ -93,7 +95,7 @@ export const hasRentedCardAtPrice = (cards: PlayerCard[], price: number) => {
   return cards.some(
     (card) =>
       card.marketListingPrice === price &&
-      card.marketRentalStatus === MarketRentalStatus.RENTED,
+      card.marketListingStatus === MarketListingStatus.RENTED,
   );
 };
 
@@ -102,7 +104,7 @@ export const hasRentedCardAtPrice = (cards: PlayerCard[], price: number) => {
  */
 export const getHighestRentedCardPrice = (cards: PlayerCard[]) => {
   return cards
-    .filter((card) => card.marketRentalStatus === MarketRentalStatus.RENTED)
+    .filter((card) => card.marketListingStatus === MarketListingStatus.RENTED)
     .reduce(
       (maxPrice, card) => Math.max(maxPrice, card.marketListingPrice || 0),
       0,
@@ -114,7 +116,7 @@ export const getHighestRentedCardPrice = (cards: PlayerCard[]) => {
  */
 export const getHighestListedCardPrice = (cards: PlayerCard[]) => {
   return cards
-    .filter((card) => card.marketRentalStatus === MarketRentalStatus.LISTED)
+    .filter((card) => card.marketListingStatus === MarketListingStatus.LISTED)
     .reduce(
       (maxPrice, card) => Math.max(maxPrice, card.marketListingPrice || 0),
       0,

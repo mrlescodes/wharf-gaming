@@ -6,7 +6,7 @@ import { cardIsExactCombine, hasUnlistedCard } from '.';
  * Determines if a group of cards are valid for rental.
  */
 export const cardsAreValidForRental = (cardGroup: CardGroup) => {
-  const { cards, cardDetails, cardGroupingInfo } = cardGroup;
+  const { cards, cardGroupDetails } = cardGroup;
 
   if (cards.length === 0) {
     return false;
@@ -16,7 +16,7 @@ export const cardsAreValidForRental = (cardGroup: CardGroup) => {
     return false;
   }
 
-  if (!cardIsExactCombine(cardDetails.rarity, cardGroupingInfo.bcx)) {
+  if (!cardIsExactCombine(cardGroupDetails)) {
     return false;
   }
 

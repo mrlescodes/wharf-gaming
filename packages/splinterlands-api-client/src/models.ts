@@ -2,7 +2,7 @@ import { Schema } from '@effect/schema';
 
 import {
   MarketListingType,
-  MarketRentalStatus,
+  MarketListingStatus,
   MarketRentalType,
 } from '@wharf-gaming/splinterlands-models';
 
@@ -48,9 +48,10 @@ export const PlayerCardCollectionResponse = Schema.Struct({
       uid: Schema.String,
       card_detail_id: Schema.Number,
       gold: Schema.Boolean,
+      edition: Schema.Number,
       buy_price: Schema.NullOr(Schema.NumberFromString),
       market_listing_type: Schema.NullOr(Schema.Enums(MarketListingType)),
-      market_listing_status: Schema.NullOr(Schema.Enums(MarketRentalStatus)), // TODO: Review if this applies only to rentals or sales too
+      market_listing_status: Schema.NullOr(Schema.Enums(MarketListingStatus)),
       bcx: Schema.Number,
     }),
   ),

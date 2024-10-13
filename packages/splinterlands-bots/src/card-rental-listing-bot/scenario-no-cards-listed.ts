@@ -3,7 +3,7 @@ import { Effect } from 'effect';
 import { CardGroup } from '@wharf-gaming/splinterlands-models';
 import {
   allCardsAreUnlisted,
-  computeCardLevel,
+  calculateCardLevel,
 } from '@wharf-gaming/splinterlands-utils';
 
 import {
@@ -33,12 +33,9 @@ export const processNoCardsListedScenario = (
 ) => {
   return Effect.gen(function* () {
     const lowestRentalCardPrice = yield* fetchLowestRentalCardPrice({
-      cardDetailId: cardGroup.cardGroupingInfo.cardDetailId,
-      gold: cardGroup.cardGroupingInfo.gold,
-      level: computeCardLevel(
-        cardGroup.cardDetails.rarity,
-        cardGroup.cardGroupingInfo.bcx,
-      ),
+      cardDetailId: cardGroup.cardGroupDetails.cardDetailId,
+      gold: cardGroup.cardGroupDetails.gold,
+      level: calculateCardLevel(cardGroup.cardGroupDetails),
     });
 
     const startIndex = getIndexForTargetPrice(
